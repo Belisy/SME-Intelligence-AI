@@ -224,3 +224,62 @@ python scripts/build_rag_docs.py
 4. **최근 1년 공시 요약** — 최신 10건, `[날짜] 보고서명 (접수번호)` 형식
 5. **핵심 해석 요약** — rule-based 문장 3~5개 (LLM 미사용)
 6. **출처** — 원본 CSV 경로
+
+---
+
+## web/ — Research Assistant 웹앱 (Next.js 14)
+
+기업 검색·상세 분석 대시보드. 로컬 CSV/Markdown 파일 기반으로 동작합니다.
+
+### 기술 스택
+
+- Next.js 14 · App Router · TypeScript · Tailwind CSS
+- 별도 DB/로그인 없음 — `data/` 폴더를 직접 읽음
+
+### 설치 및 실행
+
+```powershell
+cd web
+npm install
+npm run dev
+```
+
+브라우저에서 http://localhost:3000 접속 → `/research`로 자동 이동
+
+### 라우팅
+
+| 경로 | 설명 |
+|---|---|
+| `/research` | 기업 목록 · 검색 · 필터 · 정렬 |
+| `/research/[ticker]` | 기업 상세 분석 (지표 카드, 재무 테이블, 공시 목록, 해석) |
+
+### 데이터 경로 설정
+
+`web/` 디렉터리에서 실행 시 자동으로 `../data`를 참조합니다.
+경로가 다른 경우 `web/.env.local` 파일을 생성하고 아래를 추가하세요.
+
+```
+DATA_ROOT=C:/절대경로/SME-Intelligence-AI/data
+```
+
+### 웹앱 파일 구조
+
+```
+web/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx              # 공통 레이아웃
+│   │   ├── research/page.tsx       # 기업 목록 페이지 (Server Component)
+│   │   └── research/[ticker]/page.tsx  # 기업 상세 페이지 (Server Component)
+│   ├── components/
+│   │   ├── CompanyList.tsx         # 검색/필터/정렬 (Client Component)
+│   │   ├── MetricCard.tsx          # 지표 카드
+│   │   ├── FinancialsTable.tsx     # 재무 테이블
+│   │   └── FilingsList.tsx         # 공시 목록
+│   └── lib/
+│       ├── data.ts                 # CSV 로더 (서버 전용)
+│       ├── types.ts                # TypeScript 인터페이스
+│       ├── format.ts               # 억원·퍼센트 포맷터
+│       └── interpret.ts            # rule-based 해석 문장 생성
+└── package.json
+```

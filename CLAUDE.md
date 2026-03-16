@@ -21,6 +21,9 @@ python scripts/fetch_dart_financials.py  # 최근 3개년 재무 데이터 수�
 python scripts/fetch_dart_filings.py     # 최근 1년 공시 목록 수집
 python scripts/build_features.py         # 파생 지표 및 스코어 생성 (API 호출 없음)
 python scripts/build_rag_docs.py         # 기업별 Markdown RAG 문서 생성 (API 호출 없음)
+
+# 웹앱 실행 (web/ 디렉터리)
+cd web && npm install && npm run dev     # http://localhost:3000 → /research
 ```
 
 ## Data layout
@@ -31,6 +34,9 @@ python scripts/build_rag_docs.py         # 기업별 Markdown RAG 문서 생성 
 - `data/processed/financials/filings_1y.csv` — 최근 1년 공시 목록
 - `data/processed/features/company_features.csv` — 파생 지표 및 스코어 (build_features.py 출력)
 - `data/processed/rag_docs/{ticker}.md` — 기업별 RAG 문서 (build_rag_docs.py 출력)
+- `web/` — Next.js 14 웹앱 (App Router, TypeScript, Tailwind)
+  - `web/src/lib/data.ts` — CSV 로더 (서버 전용, `../data` 참조)
+  - `web/src/lib/interpret.ts` — rule-based 해석 문장 생성 (Python interpret 로직과 동일)
 - `data/logs/` — 매핑/수집 실패 기업 로그
 
 ## Architecture
