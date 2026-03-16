@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Header from '@/components/Header'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -10,11 +11,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body>
-        {/* 사이트 공통 헤더 */}
-        <header className="bg-slate-900 text-white px-6 py-4 flex items-center gap-3 shadow-md">
-          <span className="text-lg font-bold tracking-tight">SME Intelligence AI</span>
-          <span className="text-slate-400 text-sm">Research Assistant</span>
-        </header>
+        <Header />
         <main className="min-h-screen">{children}</main>
       </body>
     </html>

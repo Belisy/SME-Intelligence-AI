@@ -18,6 +18,7 @@ const SORT_OPTIONS = [
   { label: '리스크 스코어 낮은순', key: 'risk_score', dir: 1 },
   { label: '리스크 스코어 높은순', key: 'risk_score', dir: -1 },
   { label: '매출 CAGR 높은순', key: 'revenue_cagr_3y', dir: -1 },
+  { label: '공시 건수 많은순', key: 'disclosure_count_1y', dir: -1 },
   { label: '기업명 가나다순', key: 'company_name', dir: 1 },
 ] as const
 
@@ -144,7 +145,7 @@ export default function CompanyList({ companies, sectors }: Props) {
       const av = a[sortOpt.key as keyof CompanyFeature] ?? (sortOpt.dir === 1 ? Infinity : -Infinity)
       const bv = b[sortOpt.key as keyof CompanyFeature] ?? (sortOpt.dir === 1 ? Infinity : -Infinity)
       if (typeof av === 'string' && typeof bv === 'string') return av.localeCompare(bv) * sortOpt.dir
-      return ((av as number) - (bv as number)) * sortOpt.dir * -1
+      return ((av as number) - (bv as number)) * sortOpt.dir
     })
 
     return list
